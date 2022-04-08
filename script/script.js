@@ -6,7 +6,7 @@ const btnEl = document.querySelector('button');
 const article = document.querySelector('article');
 
 let currentPageNumber = 1;
-// let prevPageNumber;
+let prevPageNumber;
 // let nextPageNumber = currentPageNumber + 1;
 
 
@@ -67,10 +67,11 @@ nextBtn?.addEventListener('click', () => {
 prevBtn?.addEventListener('click', () => {
   console.log(currentPageNumber)
   article.innerHTML = "";
-  getData(currentPageNumber - 1);
   if (currentPageNumber === 1) {
     prevPageNumber = currentPageNumber;
   } else {
     prevPageNumber = currentPageNumber - 1;
   }
+  getData(prevPageNumber);
+  currentPageNumber -= 1;
 })
