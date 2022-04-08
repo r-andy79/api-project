@@ -14,18 +14,18 @@ let prevPageNumber;
 const getData = (endpoint => {
   API.get(endpoint)
     .then(data => {
-      console.log(data)
       if (data.length > 0) {
         data.forEach(item => {
           insertData(item);
         })
-        // currentPageNumber += 1;
-        // console.log(currentPageNumber);
-        article.appendChild(prevBtn);
-        article.appendChild(nextBtn);
+        if(currentPageNumber === 1) {
+          article.appendChild(nextBtn)
+        } else {
+          article.appendChild(prevBtn);
+          article.appendChild(nextBtn);
+        }
+
       } else if (data.length === 0) {
-        console.log(data)
-        // currentPageNumber -= 1;
         article.insertAdjacentHTML('beforeend', `<p>No more beers to show :(. Please go back to the previous page</p>`)
         article.appendChild(prevBtn)
       }
