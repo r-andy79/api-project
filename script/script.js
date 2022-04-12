@@ -1,10 +1,12 @@
 import Wrapper from './fetch-wrapper.js'
 
-const API = new Wrapper('https://api.punkapi.com/v2/beers?page=')
+const API = new Wrapper('https://api.punkapi.com/v2/beers?')
 
 const btnEl = document.querySelector('button');
 const article = document.querySelector('article');
 const selectEL = document.querySelector('select');
+const formEl = document.querySelector('form');
+const beerName = document.querySelector('.beer-name');
 
 let currentPageNumber = 1;
 let prevPageNumber;
@@ -61,12 +63,12 @@ const insertData = (item) => {
 
 btnEl.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(`${currentPageNumber}&per_page=${resultsPerPage}`)
+  getData(`page=${currentPageNumber}&per_page=${resultsPerPage}`)
 })
 
 nextBtn?.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(`${currentPageNumber + 1}&per_page=${resultsPerPage}`);
+  getData(`page=${currentPageNumber + 1}&per_page=${resultsPerPage}`);
   currentPageNumber += 1;
 })
 
@@ -77,6 +79,12 @@ prevBtn?.addEventListener('click', () => {
   } else {
     prevPageNumber = currentPageNumber - 1;
   }
-  getData(`${prevPageNumber}&per_page=${resultsPerPage}`);
+  getData(`page=${prevPageNumber}&per_page=${resultsPerPage}`);
   currentPageNumber -= 1;
+})
+
+formEl.addEventListener('submit', event => {
+  article.innerHTML = "";
+  event.preventDefault();
+  getData(`beer_name=${beerName.value}`);
 })
