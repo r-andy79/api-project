@@ -9,17 +9,11 @@
 </head>
 <body>
   <h1>Pick-A-Beer!</h1>
-  <form>
-    <input class="beer-name" type="text" />
-    <input type="submit" value="send">
-  </form>
-  <select name="result" id="results-per-page">
-    <option value="10" selected>10</option>
-    <option value="25">25</option>
-    <option value="50">50</option>
-    <option value="75">75</option>
-    <option value="100">100</option>
-  </select>
+<form>
+  <label for="abv level">ABV greater</label>
+    <input data-abv-gt="abv_gt" id="abv" name="abv level" type="number" value="0" step="0.5"/>
+    <input type="submit" value="submit">
+</form>
   <button>Do it!</button>
   <article>
   </article>

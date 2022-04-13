@@ -4,19 +4,11 @@ const API = new Wrapper('https://api.punkapi.com/v2/beers?')
 
 const btnEl = document.querySelector('button');
 const article = document.querySelector('article');
-const selectEL = document.querySelector('select');
 const formEl = document.querySelector('form');
-const beerName = document.querySelector('.beer-name');
+const abv = document.querySelector('#abv');
 
 let currentPageNumber = 1;
 let prevPageNumber;
-let resultsPerPage = selectEL.value;
-
-selectEL.addEventListener('change', () => {
-  resultsPerPage = selectEL.value;
-  return resultsPerPage;
-})
-
 
 const getData = (endpoint => {
   API.get(endpoint)
@@ -39,6 +31,23 @@ const getData = (endpoint => {
       }
     })
 })
+
+let paramsString = '';
+
+const getParams = (param1, param2) => {
+  let searchParams = new URLSearchParams(paramsString);
+  searchParams.append(param1, param2);
+  paramsString += searchParams.toString();
+  return paramsString;
+}
+
+
+formEl.addEventListener('submit', event => {
+  event.preventDefault();
+  console.log(abv.dataset.abvGt, abv.value);
+  getData(getParams(abv.dataset.abvGt, abv.value));
+})
+
 
 const nextBtn = document.createElement("button")
 nextBtn.textContent = 'Next page';
@@ -63,12 +72,12 @@ const insertData = (item) => {
 
 btnEl.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(`page=${currentPageNumber}&per_page=${resultsPerPage}`)
+  getData(currentPageNumber)
 })
 
 nextBtn?.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(`page=${currentPageNumber + 1}&per_page=${resultsPerPage}`);
+  getData(currentPageNumber + 1);
   currentPageNumber += 1;
 })
 
@@ -79,12 +88,6 @@ prevBtn?.addEventListener('click', () => {
   } else {
     prevPageNumber = currentPageNumber - 1;
   }
-  getData(`page=${prevPageNumber}&per_page=${resultsPerPage}`);
+  getData(prevPageNumber);
   currentPageNumber -= 1;
-})
-
-formEl.addEventListener('submit', event => {
-  article.innerHTML = "";
-  event.preventDefault();
-  getData(`beer_name=${beerName.value}`);
 })
