@@ -32,20 +32,18 @@ const getData = (endpoint => {
     })
 })
 
-let paramsString = '';
 
-const getParams = (param1, param2) => {
+const buildQuery = (param1, param2) => {
+  let paramsString = '';
   let searchParams = new URLSearchParams(paramsString);
   searchParams.append(param1, param2);
-  paramsString += searchParams.toString();
-  return paramsString;
+  return paramsString += searchParams.toString();
 }
 
 
 formEl.addEventListener('submit', event => {
   event.preventDefault();
-  console.log(abv.dataset.abvGt, abv.value);
-  getData(getParams(abv.dataset.abvGt, abv.value));
+  getData(buildQuery(abv.dataset.abvGt, abv.value));
 })
 
 
