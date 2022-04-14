@@ -68,12 +68,12 @@ const insertData = (item) => {
 
 btnEl.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(currentPageNumber)
+  getData(buildQuery({page: currentPageNumber}))
 })
 
 nextBtn?.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(currentPageNumber + 1);
+  getData(buildQuery({page: currentPageNumber + 1}));
   currentPageNumber += 1;
 })
 
@@ -84,6 +84,6 @@ prevBtn?.addEventListener('click', () => {
   } else {
     prevPageNumber = currentPageNumber - 1;
   }
-  getData(prevPageNumber);
+  getData(buildQuery({page: prevPageNumber}));
   currentPageNumber -= 1;
 })
