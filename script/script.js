@@ -5,11 +5,19 @@ const API = new Wrapper('https://api.punkapi.com/v2/beers?')
 
 const btnEl = document.querySelector('button');
 const article = document.querySelector('article');
-const formEl = document.querySelector('form');
-const abv = document.querySelector('#abv');
+const selectEl = document.querySelector('select');
+// const formEl = document.querySelector('form');
+// const abv = document.querySelector('#abv');
 
 let currentPageNumber = 1;
 let prevPageNumber;
+let resultsPerPage = 10;
+
+selectEl.addEventListener('change', () => {
+  resultsPerPage = selectEl.value;
+  console.log(resultsPerPage);
+  return resultsPerPage;
+})
 
 const getData = (endpoint => {
   API.get(endpoint)
@@ -34,16 +42,16 @@ const getData = (endpoint => {
 })
 
 
-// const buildQuery = (obj = {}) => {
-//   let searchParams = new URLSearchParams(obj);
-//   return searchParams.toString();
-// }
-
-
-formEl.addEventListener('submit', event => {
-  event.preventDefault();
-  getData(buildQuery({}));
-})
+// formEl.addEventListener('submit', event => {
+//   event.preventDefault();
+//   const abvKey = abv.dataset.abvGt;
+//   console.log(abvKey)
+//   const abvValue = abv.value;
+//   const params = {[abvKey]: abvValue, brewed_before: '05-2012'};
+//   // console.log(params);
+//   console.log(buildQuery(params));
+//   getData(buildQuery(params));
+// })
 
 
 const nextBtn = document.createElement("button")
@@ -69,12 +77,12 @@ const insertData = (item) => {
 
 btnEl.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(buildQuery({page: currentPageNumber}))
+  getData(buildQuery({page: currentPageNumber, per_page: resultsPerPage}));
 })
 
 nextBtn?.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(buildQuery({page: currentPageNumber + 1}));
+  getData(buildQuery({page: currentPageNumber + 1, per_page: resultsPerPage}));
   currentPageNumber += 1;
 })
 
@@ -85,6 +93,6 @@ prevBtn?.addEventListener('click', () => {
   } else {
     prevPageNumber = currentPageNumber - 1;
   }
-  getData(buildQuery({page: prevPageNumber}));
+  getData(buildQuery({page: prevPageNumber, per_page: resultsPerPage}));
   currentPageNumber -= 1;
 })
