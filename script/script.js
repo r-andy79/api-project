@@ -1,4 +1,5 @@
 import Wrapper from './fetch-wrapper.js'
+import { buildQuery } from '../buildQuery.js';
 
 const API = new Wrapper('https://api.punkapi.com/v2/beers?')
 
@@ -33,10 +34,10 @@ const getData = (endpoint => {
 })
 
 
-const buildQuery = (obj = {}) => {
-  let searchParams = new URLSearchParams(obj);
-  return searchParams.toString();
-}
+// const buildQuery = (obj = {}) => {
+//   let searchParams = new URLSearchParams(obj);
+//   return searchParams.toString();
+// }
 
 
 formEl.addEventListener('submit', event => {
