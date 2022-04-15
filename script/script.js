@@ -15,7 +15,8 @@ let resultsPerPage = 10;
 
 selectEl.addEventListener('change', () => {
   resultsPerPage = selectEl.value;
-  console.log(resultsPerPage);
+  currentPageNumber = 1;
+  article.innerHTML = '';
   return resultsPerPage;
 })
 
