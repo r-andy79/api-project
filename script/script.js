@@ -6,8 +6,9 @@ const API = new Wrapper('https://api.punkapi.com/v2/beers?')
 const btnEl = document.querySelector('button');
 const article = document.querySelector('article');
 const selectEl = document.querySelector('select');
-// const formEl = document.querySelector('form');
-// const abv = document.querySelector('#abv');
+const formEl = document.querySelector('form');
+const beerName = document.querySelector('#beer-name');
+console.log(beerName)
 
 let currentPageNumber = 1;
 let prevPageNumber;
@@ -43,16 +44,11 @@ const getData = (endpoint => {
 })
 
 
-// formEl.addEventListener('submit', event => {
-//   event.preventDefault();
-//   const abvKey = abv.dataset.abvGt;
-//   console.log(abvKey)
-//   const abvValue = abv.value;
-//   const params = {[abvKey]: abvValue, brewed_before: '05-2012'};
-//   // console.log(params);
-//   console.log(buildQuery(params));
-//   getData(buildQuery(params));
-// })
+formEl.addEventListener('submit', event => {
+  event.preventDefault();
+  article.innerHTML = "";
+  getData(buildQuery({beer_name: beerName.value}));
+})
 
 
 const nextBtn = document.createElement("button")
