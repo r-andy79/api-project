@@ -7,8 +7,8 @@ const btnEl = document.querySelector('button');
 const article = document.querySelector('article');
 const selectEl = document.querySelector('select');
 const formEl = document.querySelector('form');
-const beerName = document.querySelector('#beer-name');
-console.log(beerName)
+const beerName = document.querySelector('#beer-name__input');
+const abvLevel = document.querySelector('#abv-level');
 
 let currentPageNumber = 1;
 let prevPageNumber;
@@ -62,11 +62,14 @@ prevBtn.textContent = 'Prev page';
 const insertData = (item) => {
   article.insertAdjacentHTML(
     'beforeend',
-    `<h2>${item.name}</h2>
+    `
+    <div class="beer-card">
+    <h2>${item.name}</h2>
       <p>Alcohol: <span>${item.abv}%</span>, IBU: <span>${item.ibu}</span></p>
       <p>${item.tagline}</p>
       <p>${item.description}</p>
       <p>It goes great with: ${item.food_pairing}</p>
+    </div>
     `
   )
 }

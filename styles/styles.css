@@ -4,3 +4,21 @@
   box-sizing: border-box;
 }
 
+/* body {
+  background: blue;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  width: 70%;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.beer-card {
+  margin: 40px 0;
+} */
