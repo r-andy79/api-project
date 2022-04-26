@@ -10,16 +10,7 @@ const formEl = document.querySelector('form');
 const beerName = document.querySelector('#beer-name__input');
 const abvLevel = document.querySelector('#abv-level');
 
-let currentPageNumber = 1;
 let prevPageNumber;
-let resultsPerPage = 10;
-
-selectEl.addEventListener('change', () => {
-  resultsPerPage = selectEl.value;
-  currentPageNumber = 1;
-  article.innerHTML = '';
-  return resultsPerPage;
-})
 
 const getData = (endpoint => {
   API.get(endpoint)
@@ -29,7 +20,7 @@ const getData = (endpoint => {
         data.forEach(item => {
           insertData(item);
         })
-        if(currentPageNumber === 1) {
+        if(params.page === 1) {
           article.appendChild(nextBtn)
         } else {
           article.appendChild(prevBtn);
@@ -41,13 +32,6 @@ const getData = (endpoint => {
         article.appendChild(prevBtn)
       }
     })
-})
-
-
-formEl.addEventListener('submit', event => {
-  event.preventDefault();
-  article.innerHTML = "";
-  getData(buildQuery({beer_name: beerName.value}));
 })
 
 
@@ -74,25 +58,39 @@ const insertData = (item) => {
   )
 }
 
+const params = {
+  page: 1,
+  per_page: 3,
+}
 
-btnEl.addEventListener('click', () => {
+formEl.addEventListener('submit', event => {
+  event.preventDefault();
+  params.beer_name = beerName.value;
   article.innerHTML = "";
-  getData(buildQuery({page: currentPageNumber, per_page: resultsPerPage}));
+  getData(buildQuery(params));
 })
 
 nextBtn?.addEventListener('click', () => {
   article.innerHTML = "";
-  getData(buildQuery({page: currentPageNumber + 1, per_page: resultsPerPage}));
-  currentPageNumber += 1;
+  params.page += 1;
+  getData(buildQuery(params));
 })
 
 prevBtn?.addEventListener('click', () => {
   article.innerHTML = "";
-  if (currentPageNumber === 1) {
-    prevPageNumber = currentPageNumber;
+  if (params.page === 1) {
+    prevPageNumber = params.page;
   } else {
-    prevPageNumber = currentPageNumber - 1;
+    prevPageNumber = params.page - 1;
   }
-  getData(buildQuery({page: prevPageNumber, per_page: resultsPerPage}));
-  currentPageNumber -= 1;
+  params.page = prevPageNumber;
+  getData(buildQuery(params));
+})
+
+selectEl.addEventListener('change', () => {
+  params.per_page = selectEl.value;
+  console.log(params.per_page);
+  params.page = 1;
+  article.innerHTML = '';
+  getData(buildQuery(params));
 })
