@@ -65,15 +65,11 @@ const params = {
 
 formEl.addEventListener('submit', event => {
   event.preventDefault();
-  if(beerName.value === "") {
-    console.log('nie ma piwa, kurwaaa!!!');
-    article.innerHTML = "";
-    getData(buildQuery(params));
-  } else {
+  article.innerHTML = "";
+  if(beerName.value !== "") {
     params.beer_name = beerName.value;
-    article.innerHTML = "";
-    getData(buildQuery(params));
   }
+  getData(buildQuery(params));
 })
 
 nextBtn?.addEventListener('click', () => {
