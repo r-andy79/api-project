@@ -10,8 +10,6 @@ const formEl = document.querySelector('form');
 const beerName = document.querySelector('#beer-name__input');
 const abvLevel = document.querySelector('#abv-level');
 
-let prevPageNumber;
-
 const getData = (endpoint => {
   API.get(endpoint)
     .then(data => {
@@ -80,12 +78,9 @@ nextBtn?.addEventListener('click', () => {
 
 prevBtn?.addEventListener('click', () => {
   article.innerHTML = "";
-  if (params.page === 1) {
-    prevPageNumber = params.page;
-  } else {
-    prevPageNumber = params.page - 1;
+  if(params.page !== 1) {
+    params.page -= 1;
   }
-  params.page = prevPageNumber;
   getData(buildQuery(params));
 })
 
