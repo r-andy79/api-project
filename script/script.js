@@ -73,7 +73,7 @@ const params = {
 formEl.addEventListener('submit', event => {
   event.preventDefault();
   Array.from(formEl).forEach(element => {
-    if(element.type !== 'submit') {
+    if(element.type !== 'submit' && element.value !== "") {
       const key = Object.values(element.dataset).toString();
       params[key] = element.value;
     }
