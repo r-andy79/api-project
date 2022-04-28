@@ -61,12 +61,23 @@ const params = {
   per_page: 3,
 }
 
+// formEl.addEventListener('submit', event => {
+//   event.preventDefault();
+//   article.innerHTML = "";
+//   if(beerName.value !== "") {
+//     params.beer_name = beerName.value;
+//   }
+//   getData(buildQuery(params));
+// })
+
 formEl.addEventListener('submit', event => {
   event.preventDefault();
-  article.innerHTML = "";
-  if(beerName.value !== "") {
-    params.beer_name = beerName.value;
-  }
+  Array.from(formEl).forEach(element => {
+    if(element.type !== 'submit') {
+      const key = Object.values(element.dataset).toString();
+      params[key] = element.value;
+    }
+  });
   getData(buildQuery(params));
 })
 
