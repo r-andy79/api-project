@@ -1,39 +1,11 @@
-import Wrapper from './fetch-wrapper.js'
-import { buildQuery } from '../buildQuery.js';
+import { FetchWrapper, buildQuery, buildView } from './functions.js'
 
-const API = new Wrapper('https://api.punkapi.com/v2/beers?')
+const API = new FetchWrapper('https://api.punkapi.com/v2/beers?')
 
-const btnEl = document.querySelector('button');
-const article = document.querySelector('article');
 const selectEl = document.querySelector('select');
 const formEl = document.querySelector('form');
 const beerName = document.querySelector('#beer-name__input');
-const abvLevel = document.querySelector('#abv-level');
-
-let prevPageNumber;
-
-const getData = (endpoint => {
-  API.get(endpoint)
-    .then(data => {
-      console.log(data)
-      if (data.length > 0) {
-        data.forEach(item => {
-          insertData(item);
-        })
-        if(params.page === 1) {
-          article.appendChild(nextBtn)
-        } else {
-          article.appendChild(prevBtn);
-          article.appendChild(nextBtn);
-        }
-
-      } else if (data.length === 0) {
-        article.insertAdjacentHTML('beforeend', `<p>No more beers to show :(. Please go back to the previous page</p>`)
-        article.appendChild(prevBtn)
-      }
-    })
-})
-
+const article = document.querySelector('article');
 
 const nextBtn = document.createElement("button")
 nextBtn.textContent = 'Next page';
@@ -41,58 +13,40 @@ nextBtn.textContent = 'Next page';
 const prevBtn = document.createElement("button");
 prevBtn.textContent = 'Prev page';
 
-// function inserting data to the website
-
-const insertData = (item) => {
-  article.insertAdjacentHTML(
-    'beforeend',
-    `
-    <div class="beer-card">
-    <h2>${item.name}</h2>
-      <p>Alcohol: <span>${item.abv}%</span>, IBU: <span>${item.ibu}</span></p>
-      <p>${item.tagline}</p>
-      <p>${item.description}</p>
-      <p>It goes great with: ${item.food_pairing}</p>
-    </div>
-    `
-  )
-}
-
 const params = {
   page: 1,
   per_page: 3,
 }
 
-formEl.addEventListener('submit', event => {
+
+formEl.addEventListener('submit', (event) => {
   event.preventDefault();
-  article.innerHTML = "";
-  if(beerName.value !== "") {
-    params.beer_name = beerName.value;
-  }
-  getData(buildQuery(params));
+  if(beerName.value !== "") params.beer_name = beerName.value;
+
+  dry()
 })
 
 nextBtn?.addEventListener('click', () => {
-  article.innerHTML = "";
   params.page += 1;
-  getData(buildQuery(params));
+
+  dry()
 })
 
 prevBtn?.addEventListener('click', () => {
-  article.innerHTML = "";
-  if (params.page === 1) {
-    prevPageNumber = params.page;
-  } else {
-    prevPageNumber = params.page - 1;
+  if (params.page !== 1) {
+    params.page -= 1;
   }
-  params.page = prevPageNumber;
-  getData(buildQuery(params));
+
+  dry()
 })
 
 selectEl.addEventListener('change', () => {
   params.per_page = selectEl.value;
-  console.log(params.per_page);
   params.page = 1;
-  article.innerHTML = '';
-  getData(buildQuery(params));
+  
+  dry()
 })
+
+const dry = async () => {
+  buildView(await API.get(buildQuery(params)), params, nextBtn, prevBtn, article)
+}

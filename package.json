@@ -1,8 +1,18 @@
 {
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    },
+    "testEnvironment": "jsdom"
+  },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@types/jest": "^27.4.1",
+    "babel-jest": "^28.0.3",
     "jest": "^27.5.1"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --watch --coverage"
   }
 }
