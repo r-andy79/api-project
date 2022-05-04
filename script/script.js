@@ -74,12 +74,25 @@ formEl.addEventListener('submit', event => {
   event.preventDefault();
   Array.from(formEl).forEach(element => {
     if(element.type !== 'submit' && element.value !== "") {
+      if(!element.checked && element.type === "radio") {
+        return;
+      }
+      console.log(element.checked === true, element.type, element.value);
       const key = Object.values(element.dataset).toString();
+      console.log(key, element.value);
       params[key] = element.value;
     }
   });
   getData(buildQuery(params));
 })
+
+// Iteracja po array
+// jesli element nie jest typu submit i jesli element nie jest pustym stringiem
+  // jesli element jest checked
+    // utworz klucz elementu
+    // pobierz wartosc elementu i przypisz do klucza
+  // utworz klucz elementu
+  // pobierz wartosc elementu i przypisz do klucza
 
 nextBtn?.addEventListener('click', () => {
   article.innerHTML = "";
