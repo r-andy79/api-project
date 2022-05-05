@@ -3,12 +3,9 @@ import { buildQuery } from '../buildQuery.js';
 
 const API = new Wrapper('https://api.punkapi.com/v2/beers?')
 
-const btnEl = document.querySelector('button');
 const article = document.querySelector('article');
 const selectEl = document.querySelector('select');
 const formEl = document.querySelector('form');
-const beerName = document.querySelector('#beer-name__input');
-const abvLevel = document.querySelector('#abv-level');
 
 const getData = (endpoint => {
   API.get(endpoint)
@@ -61,17 +58,9 @@ const params = {
   per_page: 3,
 }
 
-// formEl.addEventListener('submit', event => {
-//   event.preventDefault();
-//   article.innerHTML = "";
-//   if(beerName.value !== "") {
-//     params.beer_name = beerName.value;
-//   }
-//   getData(buildQuery(params));
-// })
-
 formEl.addEventListener('submit', event => {
   event.preventDefault();
+  article.innerHTML = "";
   Array.from(formEl).forEach(element => {
     if(element.type !== 'submit' && element.value !== "") {
       if(!element.checked && element.type === "radio") {
@@ -85,14 +74,6 @@ formEl.addEventListener('submit', event => {
   });
   getData(buildQuery(params));
 })
-
-// Iteracja po array
-// jesli element nie jest typu submit i jesli element nie jest pustym stringiem
-  // jesli element jest checked
-    // utworz klucz elementu
-    // pobierz wartosc elementu i przypisz do klucza
-  // utworz klucz elementu
-  // pobierz wartosc elementu i przypisz do klucza
 
 nextBtn?.addEventListener('click', () => {
   article.innerHTML = "";
